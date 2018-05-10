@@ -1,0 +1,129 @@
+---
+title: "Home"
+description: "R.apex is a functional library based on Apex, inspired by Lodash and Ramda.js."
+---
+
+{namespace pageIndex}
+
+/**
+ */
+{template .render}
+	{@param site: ?}
+
+	{call main.render data="all"}
+		{param content kind="html"}
+			{call .header data="all" /}
+			{call .why /}
+			{call .features /}
+			{call .how /}
+			{call .highlights /}
+			{call Footer.render data="all" /}
+		{/param}
+	{/call}
+{/template}
+
+/**
+ */
+{template .header}
+	{@param site: ?}
+
+	<header class="header">
+		<div class="container">
+			<h1 class="header-title">{$site.title}</h1>
+			<h2 class="header-subtitle">{$site.index.description}</h2>
+			<div class="header-cta">
+				<a href="/r-apex/tutorials/getting_started/step_1.html" class="btn btn-accent">Get Started</a>
+			</div>
+		</div>
+	</header>
+{/template}
+
+/**
+ */
+{template .why}
+	<article class="about">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12 col-md-offset-2">
+					<h3 class="about-title">Why R.apex?</h3>
+					<p class="about-description">Apex is a pure object-oriented lanuage, and it does not provide any builtin features to make functional programming easier. The biggest obstacle in Apex is that functions(methods) are not First Class Citizens, the building blocks in a functional world. R.apex aims to pave the way for functional programming, and makes every attempt to mimic the functional features in Apex as much as possible. So we can adopt a functional paradigm based on R.apex.</p>
+				</div>
+			</div>
+		</div>
+	</article>
+{/template}
+
+/**
+ */
+{template .features}
+	<div class="features">
+		<div class="container">
+			<div class="row">
+				<section class="feature col-md-4 col-md-offset-2">
+					<h3 class="feature-title">Collection Utility</h3>
+					<p class="feature-description">R.apex offers a ton of utitlies on Apex collections like lists, sets and maps, to help you handle daily coding tasks.</p>
+				</section>
+				<section class="feature col-md-4">
+					<h3 class="feature-title">Function Object</h3>
+					<p class="feature-description">R.apex provides support to Func objects, which paves the way for functional programming in Apex.</p>
+				</section>
+				<section class="feature col-md-4">
+					<h3 class="feature-title">Function Composition</h3>
+					<p class="feature-description">By adopting functional paradigm, R.apex is inherently built with function composition in mind.</p>
+				</section>
+			</div>
+		</div>
+	</div>
+{/template}
+
+/**
+ */
+{template .how}
+	<article class="about">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12 col-md-offset-2">
+					<h3 class="about-title">It's easier than you think</h3>
+					<p class="about-description">If you are familiar with functional programming, it takes you only minutes to pick up R.apex.</p>
+					<p class="about-description">If you are not, you can also use simple functions that you understand. It's just a utility library, and you decide how much you apply it.</p>
+				</div>
+			</div>
+		</div>
+	</article>
+{/template}
+
+/**
+ */
+{template .highlights}
+	<div class="highlights">
+		<div class="container">
+			<section class="highlight row">
+				<div class="col-md-6 col-md-offset-2">
+					<h4 class="highlight-title">Fluent API</h4>
+					<p class="highlight-description">R.apex honors the style of function call chaining, which greatly improves usability and code readability.</p>
+				</div>
+				<div class="col-md-5 col-md-offset-1">
+					<img class="highlight-image" src="/r-apex/images/highlight_1.png" alt="Fluent API" height="200">
+				</div>
+			</section>
+			<section class="highlight row">
+				<div class="col-md-6 col-md-push-9">
+					<h4 class="highlight-title">Collection Support</h4>
+					<p class="highlight-description">R.apex has various functions available to support collection manipulations.</p>
+				</div>
+				<div class="col-md-5 col-md-offset-2 col-md-pull-6">
+					<img class="highlight-image" src="/r-apex/images/highlight_2.png" alt="Collection Support" height="200">
+				</div>
+			</section>
+			<section class="highlight row">
+				<div class="col-md-6 col-md-offset-2">
+					<h4 class="highlight-title">Function Composition</h4>
+					<p class="highlight-description">R.apex provides a rich set of tools to help you compose functions to reuse your code.</p>
+				</div>
+				<div class="col-md-5 col-md-offset-1">
+					<img class="highlight-image" src="/r-apex/images/highlight_3.png" alt="Function Composition" height="200">
+				</div>
+			</section>
+		</div>
+	</div>
+{/template}

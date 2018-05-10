@@ -3184,7 +3184,7 @@ public class R {
     public static Func identity = new IdentityFunc();
 
     /**
-     * Return the applied value whenever is called
+     * Return a function which returns the value whenever called
      *
      * Example:
      * Func f = (Func)R.always.run(1);
@@ -3331,7 +3331,7 @@ public class R {
     public static Func comparator = new ComparatorFunc();
 
     /**
-     * Compar two objects
+     * Compare two objects
      *
      * Example:
      * R.compare.run(1, 2)
@@ -3649,7 +3649,7 @@ public class R {
     public static Func take = new TakeFunc().apply(false);
 
     /**
-     * Ttake the first N elements from right
+     * Take the first N elements from right
      *
      * Example:
      * R.takeRight.run(1, 'abc')
