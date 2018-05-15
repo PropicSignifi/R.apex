@@ -334,10 +334,141 @@ private class RTest {
     }
 
     @IsTest
+    private static void typeCheckTest() {
+        System.assert(R.with(1, 2, 3).isList());
+
+        System.assert(R.of(new Set<String>{ 'a' }).isSet());
+
+        System.assert(R.withObj('a', 'b').isMap());
+    }
+
+    @IsTest
+    private static void emptyTest() {
+        System.assertEquals(
+            new List<Object>(),
+            R.emptyList().debug().toList()
+        );
+
+        System.assertEquals(
+            new Set<String>(),
+            R.emptySet().toSet()
+        );
+
+        System.assertEquals(
+            new Map<String, Object>(),
+            R.emptyMap().toMap()
+        );
+
+        System.assertEquals(
+            '',
+            R.emptyString().toString()
+        );
+    }
+
+    @IsTest
+    private static void withObjTest() {
+        System.assertEquals(
+            new Map<String, Object>{ 'a' => 'b' },
+            R.withObj('a', 'b').toMap()
+        );
+    }
+
+    @IsTest
+    private static void toTest() {
+        Long l = 1;
+        System.assertEquals(l, R.of(l).toLong());
+
+        Decimal dec = 1;
+        System.assertEquals(dec, R.of(dec).toDecimal());
+
+        Double d = 1;
+        System.assertEquals(d, R.of(d).toDouble());
+
+        Date mDate = Date.newInstance(2018, 1, 1);
+        System.assertEquals(mDate, R.of(mDate).toDate());
+
+        Time mTime = Time.newInstance(10, 0, 0, 0);
+        System.assertEquals(mTime, R.of(mTime).toTime());
+
+        Datetime mDatetime = Datetime.newInstance(2018, 1, 1);
+        System.assertEquals(mDatetime, R.of(mDatetime).toDatetime());
+
+        Func f = R.equals;
+        System.assertEquals(f, R.of(f).toFunc());
+    }
+
+    @IsTest
+    private static void toListTest() {
+        List<Long> listLong = new List<Long>{ 1 };
+        System.assertEquals(listLong, R.of(listLong).toLongList());
+
+        List<Decimal> listDecimal = new List<Decimal>{ 1 };
+        System.assertEquals(listDecimal, R.of(listDecimal).toDecimalList());
+
+        List<Double> listDouble = new List<Double>{ 1 };
+        System.assertEquals(listDouble, R.of(listDouble).toDoubleList());
+
+        List<Boolean> listBoolean = new List<Boolean>{ true };
+        System.assertEquals(listBoolean, R.of(listBoolean).toBooleanList());
+
+        List<Date> listDate = new List<Date>{ Date.newInstance(2018, 1, 1) };
+        System.assertEquals(listDate, R.of(listDate).toDateList());
+
+        List<Time> listTime = new List<Time>{ Time.newInstance(10, 0, 0, 0) };
+        System.assertEquals(listTime, R.of(listTime).toTimeList());
+
+        List<Datetime> listDatetime = new List<Datetime>{ Datetime.newInstance(2018, 1, 1) };
+        System.assertEquals(listDatetime, R.of(listDatetime).toDatetimeList());
+
+        List<Func> listFunc = new List<Func>{ R.equals };
+        System.assertEquals(listFunc, R.of(listFunc).toFuncList());
+    }
+
+    @IsTest
+    private static void toMapTest() {
+        Map<String, SObject> mSObject = new Map<String, SObject>{ 'a' => new Account() };
+        System.assertEquals(mSObject, R.of(mSObject).toSObjectMap());
+
+        Map<String, Long> mLong = new Map<String, Long>{ 'a' => 1 };
+        System.assertEquals(mLong, R.of(mLong).toLongMap());
+
+        Map<String, Decimal> mDecimal = new Map<String, Decimal>{ 'a' => 1 };
+        System.assertEquals(mDecimal, R.of(mDecimal).toDecimalMap());
+
+        Map<String, Double> mDouble = new Map<String, Double>{ 'a' => 1 };
+        System.assertEquals(mDouble, R.of(mDouble).toDoubleMap());
+
+        Map<String, String> mString = new Map<String, String>{ 'a' => '1' };
+        System.assertEquals(mString, R.of(mString).toStringMap());
+
+        Map<String, Boolean> mBoolean = new Map<String, Boolean>{ 'a' => true };
+        System.assertEquals(mBoolean, R.of(mBoolean).toBooleanMap());
+
+        Map<String, Date> mDate = new Map<String, Date>{ 'a' => Date.newInstance(2018, 0, 0) };
+        System.assertEquals(mDate, R.of(mDate).toDateMap());
+
+        Map<String, Time> mTime = new Map<String, Time>{ 'a' => Time.newInstance(10, 0, 0, 0) };
+        System.assertEquals(mTime, R.of(mTime).toTimeMap());
+
+        Map<String, Datetime> mDatetime = new Map<String, Datetime>{ 'a' => Datetime.newInstance(2018, 0, 0) };
+        System.assertEquals(mDatetime, R.of(mDatetime).toDatetimeMap());
+
+        Map<String, Func> mFunc = new Map<String, Func>{ 'a' => R.equals };
+        System.assertEquals(mFunc, R.of(mFunc).toFuncMap());
+    }
+
+    @IsTest
     private static void withTest() {
         System.assertEquals(
             'a b c',
             R.with('a', 'b', 'c')
+                .doJoin(' ')
+                .toString()
+        );
+
+        System.assertEquals(
+            'a',
+            R.with('a')
                 .doJoin(' ')
                 .toString()
         );
