@@ -9245,6 +9245,11 @@ public class R {
                 String key = toString(arg1);
                 return mMap.get(key);
             }
+            else if(isStringLike(arg2)) {
+                List<String> mCharList = toCharList(arg2);
+                Integer index = toInteger(arg1);
+                return index >= 0 && index < mCharList.size() ? mCharList.get(index) : null;
+            }
 
             return null;
         }
