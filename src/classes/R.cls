@@ -5017,7 +5017,7 @@ public class R {
     }
 
     private static Integer getIndexInRange(Integer index, Integer size) {
-        return size != 0 ? Math.mod(Math.mod(index, size) + size, size) : 0;
+        return index < 0 ? size + index : index;
     }
 
     private static Boolean isNumber(Object target) {
@@ -7316,7 +7316,42 @@ public class R {
 
     private class SliceFunc extends Func {
         public SliceFunc() {
-            super(3);
+            super(-1);
+        }
+
+        public override Object exec(Object arg1, Object arg2) {
+            Integer first = toInteger(arg1);
+            Integer last = null;
+            if(isListLike(arg2)) {
+                List<Object> mList = toList(arg2);
+                Integer size = mList.size();
+                first = getIndexInRange(first, size);
+                last = size;
+                List<Object> newList = new List<Object>();
+                if(first > last) {
+                    return newList;
+                }
+                for(Integer i = first; i < last; i++) {
+                    newList.add(mList.get(i));
+                }
+                return newList;
+            }
+            else if(isStringLike(arg2)) {
+                List<String> mCharList = toCharList(arg2);
+                Integer size = mCharList.size();
+                first = getIndexInRange(first, size);
+                last = size;
+                List<String> newCharList = new List<String>();
+                if(first > last) {
+                    return '';
+                }
+                for(Integer i = first; i < last; i++) {
+                    newCharList.add(mCharList.get(i));
+                }
+                return String.join(newCharList, '');
+            }
+
+            return arg2;
         }
 
         public override Object exec(Object arg1, Object arg2, Object arg3) {
@@ -7327,8 +7362,10 @@ public class R {
                 Integer size = mList.size();
                 first = getIndexInRange(first, size);
                 last = getIndexInRange(last, size);
-                last = last == 0 ? size : last;
                 List<Object> newList = new List<Object>();
+                if(first > last) {
+                    return newList;
+                }
                 for(Integer i = first; i < last; i++) {
                     newList.add(mList.get(i));
                 }
@@ -7339,8 +7376,10 @@ public class R {
                 Integer size = mCharList.size();
                 first = getIndexInRange(first, size);
                 last = getIndexInRange(last, size);
-                last = last == 0 ? size : last;
                 List<String> newCharList = new List<String>();
+                if(first > last) {
+                    return '';
+                }
                 for(Integer i = first; i < last; i++) {
                     newCharList.add(mCharList.get(i));
                 }
@@ -7361,7 +7400,7 @@ public class R {
             if(isNumber(arg2)) {
                 Integer num = toInteger(arg2);
                 return fromRight ?
-                    R.slice.run(-num, 0, arg3):
+                    R.slice.run(-num, arg3):
                     R.slice.run(0, num, arg3);
             }
             else {
@@ -7439,7 +7478,7 @@ public class R {
                 Integer num = toInteger(arg2);
                 return fromRight ?
                     R.slice.run(0, -num, arg3):
-                    R.slice.run(num, 0, arg3);
+                    R.slice.run(num, arg3);
             }
             else {
                 Func pred = toFunc(arg2);
