@@ -3197,6 +3197,31 @@ public class R {
     public static Func always = new AlwaysFunc();
 
     /**
+     * Return a function which returns the value whenever called
+     *
+     * Example:
+     * Func f = R.constant.apply(1);
+     * System.debug(f.run(2));
+     * // 1
+     *
+     * @param val The applied value
+     * @return Object
+     * */
+    public static Func constant = new ConstantFunc();
+
+    /**
+     * Throw an exception
+     *
+     * Example:
+     * R.throwException.run(new Func.FuncException('test'));
+     * // throw exception
+     *
+     * @param e The exception
+     * @return Object
+     * */
+    public static Func throwException = new ThrowExcpetionFunc();
+
+    /**
      * Wrap the function to make it call only by once
      *
      * Example:
@@ -4986,6 +5011,43 @@ public class R {
      * */
     public static Func compact = R.filter.apply(R.isNotNil);
 
+    // ----------------------------------------------------------------------------
+    // --   DML                                                                  --
+    // ----------------------------------------------------------------------------
+
+    /**
+     * Insert SObject(s) to database
+     * 
+     * Example:
+     * R.dbInsert.run(new Account());
+     * 
+     * @param obj The SObject(s)
+     * @return Object
+     * */
+    public static Func dbInsert = new DbInsertFunc();
+
+    /**
+     * Update SObject(s) to database
+     * 
+     * Example:
+     * R.dbUpdate.run(acc);
+     * 
+     * @param obj The SObject(s)
+     * @return Object
+     * */
+    public static Func dbUpdate = new DbUpdateFunc();
+
+    /**
+     * Delete SObject(s) to database
+     * 
+     * Example:
+     * R.dbDelete.run(acc);
+     * 
+     * @param obj The SObject(s)
+     * @return Object
+     * */
+    public static Func dbDelete = new DbDeleteFunc();
+
     // EOF(End of Function List)
 
 
@@ -6772,6 +6834,27 @@ public class R {
         public override Object execN(List<Object> args) {
             Object arg = args.isEmpty() ? null : args.get(0);
             return new FuncAlways(arg);
+        }
+    }
+
+    private class ConstantFunc extends Func {
+        public override Object execN(List<Object> args) {
+            Object arg = args.isEmpty() ? null : args.get(0);
+            return arg;
+        }
+    }
+
+    private class ThrowExcpetionFunc extends Func {
+        public ThrowExcpetionFunc() {
+            super(1);
+        }
+
+        public override Object exec(Object arg) {
+            if(arg instanceof Exception) {
+                throw (Exception)arg;
+            }
+
+            return arg;
         }
     }
 
@@ -9830,6 +9913,57 @@ public class R {
             else {
                 return arg3;
             }
+        }
+    }
+
+    private class DbInsertFunc extends Func {
+        public DbInsertFunc() {
+            super(1);
+        }
+
+        public override Object exec(Object arg) {
+            if(arg instanceof SObject) {
+                insert (SObject)arg;
+            }
+            else if(arg instanceof List<SObject>) {
+                insert (List<SObject>)arg;
+            }
+
+            return arg;
+        }
+    }
+
+    private class DbUpdateFunc extends Func {
+        public DbUpdateFunc() {
+            super(1);
+        }
+
+        public override Object exec(Object arg) {
+            if(arg instanceof SObject) {
+                update (SObject)arg;
+            }
+            else if(arg instanceof List<SObject>) {
+                update (List<SObject>)arg;
+            }
+
+            return arg;
+        }
+    }
+
+    private class DbDeleteFunc extends Func {
+        public DbDeleteFunc() {
+            super(1);
+        }
+
+        public override Object exec(Object arg) {
+            if(arg instanceof SObject) {
+                delete (SObject)arg;
+            }
+            else if(arg instanceof List<SObject>) {
+                delete (List<SObject>)arg;
+            }
+
+            return arg;
         }
     }
 }

@@ -1790,6 +1790,62 @@ private class RTest {
         System.assertEquals(3, ret);
 	}
 
+    @IsTest
+    private static void constantTest() {
+        Func f = R.constant.apply(1);
+        System.assertEquals(1, f.run(2));
+    }
+
+    @IsTest
+    private static void throwExceptionTest() {
+        try {
+            R.throwException.run(new Func.FuncException('test'));
+            System.assertEquals(true, false);
+        }
+        catch(Exception e) {
+            System.assertEquals(true, true);
+        }
+    }
+
+    @IsTest
+    private static void dbInsertTest() {
+        R.dbInsert.run(new Account(Name='test'));
+
+        Account acc = [ SELECT Id FROM Account WHERE Name = 'test' ];
+
+        System.assert(acc != null);
+    }
+
+    @IsTest
+    private static void dbUpdateTest() {
+        R.dbInsert.run(new Account(Name='test'));
+
+        Account acc = [ SELECT Id FROM Account WHERE Name = 'test' ];
+
+        acc.Description = 'test';
+
+        R.dbUpdate.run(acc);
+
+        acc = [ SELECT Id, Description FROM Account WHERE Name = 'test' ];
+
+        System.assertEquals('test', acc.Description);
+    }
+
+    @IsTest
+    private static void dbDeleteTest() {
+        R.dbInsert.run(new Account(Name='test'));
+
+        Account acc = [ SELECT Id FROM Account WHERE Name = 'test' ];
+
+        System.assert(acc != null);
+
+        R.dbDelete.run(acc);
+
+        List<Account> accList = [ SELECT Id FROM Account WHERE Name = 'test' ];
+
+        System.assert(accList.isEmpty());
+    }
+
     private class AddFunc extends Func {
         public override Object exec(Object a, Object b) {
             return (Integer)a + (Integer)b;

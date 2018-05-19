@@ -278,3 +278,30 @@ System.debug(f.run(1, 2));
 ```
 
 </article>
+
+<article id="18">
+
+## constant
+
+Return a function which returns the value whenever called.
+
+
+```javascript
+Func f = R.constant.apply(2);
+System.debug(f.run(2));
+```
+
+</article>
+
+<article id="19">
+
+## throwException
+
+Throws exception
+
+
+```javascript
+R.throwException.run(new Func.FuncException('test'));
+```
+
+</article>
