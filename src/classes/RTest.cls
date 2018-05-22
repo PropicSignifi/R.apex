@@ -1808,6 +1808,15 @@ private class RTest {
     }
 
     @IsTest
+    private static void dbQueryTest() {
+        R.dbInsert.run(new Account(Name='test'));
+
+        List<SObject> result = (List<SObject>)R.dbQuery.run('SELECT Id FROM Account WHERE Name = \'test\'');
+
+        System.assert(result != null && !result.isEmpty());
+    }
+
+    @IsTest
     private static void dbInsertTest() {
         R.dbInsert.run(new Account(Name='test'));
 

@@ -5016,6 +5016,17 @@ public class R {
     // ----------------------------------------------------------------------------
 
     /**
+     * Query SObject(s) from database
+     *
+     * Example:
+     * R.dbQuery.run('SELECT Id FROM Account');
+     *
+     * @param query The query string
+     * @return Object
+     * */
+    public static Func dbQuery = new DbQueryFunc();
+
+    /**
      * Insert SObject(s) to database
      *
      * Example:
@@ -10136,6 +10147,18 @@ public class R {
             else {
                 return arg3;
             }
+        }
+    }
+
+    private class DbQueryFunc extends Func {
+        public DbQueryFunc() {
+            super(1);
+        }
+
+        public override Object exec(Object arg) {
+            String query = toString(arg);
+
+            return Database.query(query);
         }
     }
 

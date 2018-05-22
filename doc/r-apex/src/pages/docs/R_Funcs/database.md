@@ -49,3 +49,17 @@ R.dbDelete.run(acc);
 ```
 
 </article>
+
+<article id="4">
+
+## dbQuery
+
+Query SObject(s) from database
+
+
+```javascript
+String query = '...':
+R.dbQuery.run(query);
+```
+
+</article>
