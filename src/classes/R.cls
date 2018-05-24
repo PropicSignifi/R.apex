@@ -5528,6 +5528,20 @@ public class R {
             this.fst = fst;
             this.snd = snd;
         }
+
+        public Boolean equals(Object other) {
+            if(other instanceof Pair) {
+                Pair otherPair = (Pair)other;
+
+                return this.fst == otherPair.fst && this.snd == otherPair.snd;
+            }
+
+            return false;
+        }
+
+        public Integer hashCode() {
+            return (this.fst == null ? 0 : this.fst.hashCode()) + (this.snd == null ? 0 : this.snd.hashCode());
+        }
     }
 
     public enum Padding {
