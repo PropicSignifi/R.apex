@@ -5011,6 +5011,44 @@ public class R {
      * */
     public static Func compact = R.filter.apply(R.isNotNil);
 
+    /**
+     * Do assert condition
+     *
+     * Example:
+     * R.assert.run(1 == 1, 'should equal');
+     *
+     * @param condition The condition
+     * @param msg The optional message
+     * @return null
+     * */
+    public static Func assert = new AssertFunc();
+
+    /**
+     * Do assert equals
+     *
+     * Example:
+     * R.assertEquals.run(1, 1, 'should equal');
+     *
+     * @param expected The expected value
+     * @param actual The actual value
+     * @param msg The optional message
+     * @return null
+     * */
+    public static Func assertEquals = new AssertEqualsFunc();
+
+    /**
+     * Do assert not equals
+     *
+     * Example:
+     * R.assertNotEquals.run(1, 2, 'should not equal');
+     *
+     * @param expected The expected value
+     * @param actual The actual value
+     * @param msg The optional message
+     * @return null
+     * */
+    public static Func assertNotEquals = new AssertNotEqualsFunc();
+
     // ----------------------------------------------------------------------------
     // --   DML                                                                  --
     // ----------------------------------------------------------------------------
@@ -5279,6 +5317,9 @@ public class R {
         'T' => T,
         'F' => F,
         'compact' => compact,
+        'assert' => assert,
+        'assertEquals' => assertEquals,
+        'assertNotEquals' => assertNotEquals,
         'dbInsert' => dbInsert,
         'dbUpdate' => dbUpdate,
         'dbDelete' => dbDelete
@@ -10210,6 +10251,79 @@ public class R {
             }
 
             return arg;
+        }
+    }
+
+    private class AssertFunc extends Func {
+        public AssertFunc() {
+            super(-1);
+        }
+
+        public override Object exec(Object arg) {
+            Boolean condition = toBoolean(arg);
+
+            System.assert(condition);
+
+            return null;
+        }
+
+        public override Object exec(Object arg1, Object arg2) {
+            Boolean condition = toBoolean(arg1);
+            Object msg = arg2;
+
+            System.assert(condition, arg2);
+
+            return null;
+        }
+    }
+
+    private class AssertEqualsFunc extends Func {
+        public AssertEqualsFunc() {
+            super(-1);
+        }
+
+        public override Object exec(Object arg1, Object arg2) {
+            Object expected = arg1;
+            Object actual = arg2;
+
+            System.assertEquals(expected, actual);
+
+            return null;
+        }
+
+        public override Object exec(Object arg1, Object arg2, Object arg3) {
+            Object expected = arg1;
+            Object actual = arg2;
+            Object msg = arg3;
+
+            System.assertEquals(expected, actual, msg);
+
+            return null;
+        }
+    }
+
+    private class AssertNotEqualsFunc extends Func {
+        public AssertNotEqualsFunc() {
+            super(-1);
+        }
+
+        public override Object exec(Object arg1, Object arg2) {
+            Object expected = arg1;
+            Object actual = arg2;
+
+            System.assertNotEquals(expected, actual);
+
+            return null;
+        }
+
+        public override Object exec(Object arg1, Object arg2, Object arg3) {
+            Object expected = arg1;
+            Object actual = arg2;
+            Object msg = arg3;
+
+            System.assertNotEquals(expected, actual, msg);
+
+            return null;
         }
     }
 }

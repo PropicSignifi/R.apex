@@ -164,3 +164,39 @@ R.noop.run()
 ```
 
 </article>
+
+<article id="13">
+
+## assert
+
+Do System assert
+
+```javascript
+R.assert.run(1 == 1, 'should equal');
+```
+
+</article>
+
+<article id="14">
+
+## assertEquals
+
+Do System assertEquals
+
+```javascript
+R.assertEquals.run(1, 1, 'should equal');
+```
+
+</article>
+
+<article id="15">
+
+## assertNotEquals
+
+Do System assertNotEquals
+
+```javascript
+R.assertNotEquals.run(1, 2, 'should not equal');
+```
+
+</article>
