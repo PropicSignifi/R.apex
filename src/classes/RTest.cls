@@ -1050,11 +1050,11 @@ private class RTest {
         List<Account> accList = getAccountList3();
         List<Account> newList = (List<Account>)R.of(accList)
             .sortBy((Func)R.cascade.run(
-                (Func)R.ascend.run(R.prop.apply('FirstName')),
+                (Func)R.ascend.run(R.prop.apply('Name')),
                 (Func)R.ascend.run(R.prop.apply('Description'))
             ))
             .toSObjectList();
-        System.assertEquals('a', newList.get(0).FirstName);
+        System.assertEquals('a', newList.get(0).Name);
         System.assertEquals('a', newList.get(0).Description);
     }
 
@@ -1420,13 +1420,13 @@ private class RTest {
 
     private static List<Account> getAccountList3() {
         Account acc1 = new Account();
-        acc1.FirstName = 'b';
+        acc1.Name = 'b';
         acc1.Description = 'b';
         Account acc2 = new Account();
-        acc2.FirstName = 'a';
+        acc2.Name = 'a';
         acc2.Description = 'b';
         Account acc3 = new Account();
-        acc3.FirstName = 'a';
+        acc3.Name = 'a';
         acc3.Description = 'a';
         List<Account> accList = new List<Account>{ acc1, acc2, acc3 };
         return accList;
