@@ -6766,6 +6766,14 @@ public class R {
             else if(arg instanceof R && ((R)arg).isMap()) {
                 newMap = ((R)arg).toMap();
             }
+            else if(arg instanceof Map<Object, Object>) {
+                newMap = new Map<String, Object>();
+                Map<Object, Object> srcMap = (Map<Object, Object>)arg;
+                for(Object key : srcMap.keySet()) {
+                    Object value = srcMap.get(key);
+                    newMap.put(toString(key), value);
+                }
+            }
             else {
                 newMap = new Map<String, Object>();
             }
