@@ -1525,6 +1525,17 @@ private class RTest {
     }
 
     @IsTest
+    private static void pathTest() {
+        Account acc = new Account();
+        acc.Name = 'Name';
+        acc.Description = 'desc';
+        insert acc;
+
+        acc = [ SELECT Id, Owner.Id FROM Account WHERE ID = :acc.Id ];
+        System.assert(R.path.run('Owner.Id', acc) != null);
+    }
+
+    @IsTest
     private static void hasTest() {
         Account acc = new Account();
         acc.Description = 'desc';

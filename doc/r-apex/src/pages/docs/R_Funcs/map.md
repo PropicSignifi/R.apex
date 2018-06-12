@@ -220,3 +220,17 @@ R.whereSatisfies.run(R.withObj('Description', R.isNotNull), new Account(Descript
 ```
 
 </article>
+
+
+<article id="17">
+
+## path
+
+Get the property value according to the field path, separated by '.'.
+
+```javascript
+R.path.run('Owner.Id', acc)
+// desc
+```
+
+</article>

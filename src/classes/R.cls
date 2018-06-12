@@ -4702,6 +4702,19 @@ public class R {
     public static Func prop = new PropFunc();
 
     /**
+     * Get the property value
+     *
+     * Example:
+     * R.path.run('Owner.Name', acc)
+     * // desc
+     *
+     * @param field The fields, separated by '.'
+     * @param target The target object
+     * @return Object
+     * */
+    public static Func path = new PathFunc();
+
+    /**
      * Get the property value by 'getSObject'
      *
      * @param field The name of the field
@@ -5322,7 +5335,8 @@ public class R {
         'assertNotEquals' => assertNotEquals,
         'dbInsert' => dbInsert,
         'dbUpdate' => dbUpdate,
-        'dbDelete' => dbDelete
+        'dbDelete' => dbDelete,
+        'path' => path
     };
 
 
@@ -7218,6 +7232,35 @@ public class R {
             String field = toString(arg1);
             Map<String, Object> data = toMap(arg2);
             return data.get(field);
+        }
+    }
+
+    private class PathFunc extends Func {
+        public PathFunc() {
+            super(2);
+        }
+
+        private Object getValue(Map<String, Object> mMap, List<String> items) {
+            String field = items.get(0);
+            Object value = mMap.get(field);
+
+            if(isMapLike(value)) {
+                Map<String, Object> subMap = toMap(value);
+                items.remove(0);
+                return this.getValue(subMap, items);
+            }
+            else {
+                return value;
+            }
+        }
+
+        public override Object exec(Object arg1, Object arg2) {
+            String field = toString(arg1);
+            Map<String, Object> mMap = toMap(arg2);
+
+            List<String> items = field.split('\\.');
+
+            return this.getValue(mMap, items);
         }
     }
 
