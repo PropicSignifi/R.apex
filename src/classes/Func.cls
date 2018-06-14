@@ -286,6 +286,209 @@ public virtual class Func {
         return this.runN(new List<Object>());
     }
 
+    public virtual override String toString() {
+        String className = 'Func';
+        List<String> params = new List<String>();
+        if(this.length < 0) {
+            params.add('Object...');
+        }
+        else {
+            for(Integer i = 0; i < this.length; i++) {
+                params.add('Object');
+            }
+        }
+
+        return className + ':: (' + String.join(params, ', ') + ') => Object';
+    }
+
+    // All Installed Func Packages
+    private static final Map<String, IPackage> packages = new Map<String, IPackage>();
+
+    static {
+        loadPackages();
+    }
+
+    private static void loadPackages() {
+        List<ApexClass> cList = [ SELECT Id, Name, NamespacePrefix FROM ApexClass WHERE Name LIKE '%Package' OR Name = 'R' ];
+
+        for(ApexClass c : cList) {
+            String name = c.Name;
+            String prefix = c.NamespacePrefix;
+            String qName = name;
+            if(prefix != null) {
+                qName = prefix + '__' + name;
+            }
+
+            try {
+                Type pkgType = Type.forName(qName);
+                IPackage pkg = (IPackage)pkgType.newInstance();
+
+                Func.packages.put(Func.getPackageName(name), pkg);
+                Func.packages.put(Func.getPackageName(qName), pkg);
+            }
+            catch(Exception e) {
+                System.debug('Failed to load package: ' + e.getStackTraceString());
+            }
+        }
+    }
+
+    private static String getPackageName(String name) {
+        return name == null ? null : name.removeEndIgnoreCase('Package');
+    }
+
+    /**
+     * List all installed packages names
+     *
+     * Example:
+     * System.debug(Func.listPackages());
+     *
+     * @return Set<String>
+     * */
+    public static Set<String> listPackages() {
+        return Func.packages.keySet();
+    }
+
+    /**
+     * List all Function names in the package
+     *
+     * Example:
+     * System.debug(Func.showPackage('R'));
+     *
+     * @param packageName The package name
+     * @return Set<String>
+     * */
+    public static Set<String> showPackage(String packageName) {
+        IPackage pkg = Func.packages.get(packageName);
+
+        return pkg == null ? new Set<String>() : pkg.export().keySet();
+    }
+
+    /**
+     * Require the Function by the qualified name
+     * The qualified name is something like 'prpt__pkgName.funcName'
+     *
+     * Example:
+     * Func f = Func.require('R.add');
+     *
+     * @param qualifiedName The qualified name of the function
+     * @return Func
+     * */
+    public static Func require(String qualifiedName) {
+        if(!String.isBlank(qualifiedName)) {
+            Integer pos = qualifiedName.indexOf('.');
+            if(pos > 0) {
+                String packageName = qualifiedName.substring(0, pos);
+                String funcName = qualifiedName.substring(pos + 1);
+
+                return Func.require(packageName, funcName);
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Require the Func from the package and the name
+     *
+     * Example:
+     * Func f = Func.require('R', 'add');
+     *
+     * @param packageName The name of the package
+     * @param funcName The name of the Func
+     * @return Func
+     * */
+    public static Func require(String packageName, String funcName) {
+        IPackage pkg = Func.packages.get(packageName);
+
+        return pkg == null ? null : pkg.require(funcName);
+    }
+
+    /**
+     * The Func Package
+     *
+     * Generally speaking, this package is used to export functions from one library
+     * so that they can be used by other libraries without having direct dependency
+     * on the classes
+     *
+     * The best practice is to have a top level apex class extending the Func package, so that
+     * this file can be included if the Func package feature is enabled, or discarded otherwise
+     *
+     * Most of the time, use 'Func.DefaultPackage' instead
+     *
+     * */
+    public interface IPackage {
+        /**
+         * Export all the Funcs defined within this package
+         *
+         * @return Map<String, Func>
+         * */
+        Map<String, Func> export();
+
+        /**
+         * Require the Func by the name
+         *
+         * @param funcName The name of the Func
+         * @return Func
+         * */
+        Func require(String funcName);
+    }
+
+    /**
+     * The default package to be extended
+     *
+     * Example:
+     * public class MyPackage extends Func.DefaultPackage {
+     *     public override void init() {
+     *         this.export('test', new TestFunc());
+     *     }
+     * }
+     * */
+    public virtual class DefaultPackage implements IPackage {
+        private Map<String, Func> funcs = new Map<String, Func>();
+
+        /**
+         * Default constructor
+         * */
+        public DefaultPackage() {
+            this.init();
+        }
+
+        /**
+         * Override this method to provide your own Funcs
+         * */
+        public virtual void init() {
+        }
+
+        /**
+         * Export all the defined Funcs
+         *
+         * @return Map<String, Func>
+         * */
+        public Map<String, Func> export() {
+            return this.funcs;
+        }
+
+        /**
+         * Require a Func by the name
+         *
+         * @param funcName The name of the Func
+         * @return Func
+         * */
+        public Func require(String funcName) {
+            return this.funcs.get(funcName);
+        }
+
+        /**
+         * Use this method to define your Func to be exported
+         *
+         * @param name The name of the Func
+         * @param f The Func
+         * */
+        protected void export(String name, Func f) {
+            this.funcs.put(name, f);
+        }
+    }
+
     public class FuncException extends Exception {
     }
 }

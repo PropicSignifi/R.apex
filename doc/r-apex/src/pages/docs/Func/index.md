@@ -120,3 +120,32 @@ f.apply(a, b).apply(c)
 ```
 
 </article>
+
+<article id="4">
+
+## Func Package
+
+In R.apex, you can bundle your Funcs and export them as a Func Package. Func packages can be used
+by others without interacting directly with your apex classes.
+
+Here is how we define a Func Package:
+
+```javascript
+public class CustomPackage extends Func.DefaultPackage {
+    public override void init() {
+        this.export('plus', R.add);
+    }
+}
+```
+
+And you can then require the Func somewhere else.
+
+```javascript
+Func plus = Func.require('Custom.plus');
+Object result = plus.run(1, 2);
+```
+
+The best practice is that you put your package class as a top level class, so that you leave the freedom
+to users, who can then decide if they are going to use the Func Package, which relies on R.apex.
+
+</article>

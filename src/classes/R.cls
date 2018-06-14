@@ -60,7 +60,7 @@
  *
  * For example, 'map' is changed to 'doMap', and 'join' to 'doJoin'
  * */
-public class R {
+public class R implements Func.IPackage {
     /**
      * Value contained in instance of R
      * Preferred to be List<Object>, Set<String>, Map<String, Object> and String.
@@ -72,6 +72,33 @@ public class R {
      * */
     private R(Object val) {
         this.val = val;
+    }
+
+    /**
+     * This is only for reflection
+     * Please do not use this
+     * */
+    public R() {
+        this(null);
+    }
+
+    /**
+     * Export the Funcs of this package
+     *
+     * @return Map<String, Func>
+     * */
+    public Map<String, Func> export() {
+        return R.API;
+    }
+
+    /**
+     * Require the Func by name
+     *
+     * @param funcName The name of the Func
+     * @return Func
+     * */
+    public Func require(String funcName) {
+        return R.API.get(funcName);
     }
 
     /**
