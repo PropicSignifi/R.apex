@@ -1866,6 +1866,15 @@ private class RTest {
         System.assert(accList.isEmpty());
     }
 
+    @IsTest
+    private static void requireTest() {
+        Func add = Func.require('R.add');
+        System.assertEquals(3, add.run(1, 2));
+
+        Func nonsense = Func.require('R.nonsense', R.noop);
+        System.assert(nonsense.run() == null);
+    }
+
     private class AddFunc extends Func {
         public override Object exec(Object a, Object b) {
             return (Integer)a + (Integer)b;

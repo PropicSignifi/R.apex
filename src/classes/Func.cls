@@ -302,13 +302,11 @@ public virtual class Func {
     }
 
     // All Installed Func Packages
-    private static final Map<String, IPackage> packages = new Map<String, IPackage>();
-
-    static {
-        loadPackages();
-    }
+    private static Map<String, IPackage> packages = null;
 
     private static void loadPackages() {
+        Func.packages = new Map<String, IPackage>();
+
         List<ApexClass> cList = [ SELECT Id, Name, NamespacePrefix FROM ApexClass WHERE Name LIKE '%Package' OR Name = 'R' ];
 
         for(ApexClass c : cList) {
@@ -374,17 +372,33 @@ public virtual class Func {
      * @return Func
      * */
     public static Func require(String qualifiedName) {
+        Func defaultFn = null;
+        return Func.require(qualifiedName, defaultFn);
+    }
+
+    /**
+     * Require the Function by the qualified name
+     * The qualified name is something like 'prpt__pkgName.funcName'
+     *
+     * Example:
+     * Func f = Func.require('R.add', R.noop);
+     *
+     * @param qualifiedName The qualified name of the function
+     * @param defaultFn The default Func
+     * @return Func
+     * */
+    public static Func require(String qualifiedName, Func defaultFn) {
         if(!String.isBlank(qualifiedName)) {
             Integer pos = qualifiedName.indexOf('.');
             if(pos > 0) {
                 String packageName = qualifiedName.substring(0, pos);
                 String funcName = qualifiedName.substring(pos + 1);
 
-                return Func.require(packageName, funcName);
+                return Func.require(packageName, funcName, defaultFn);
             }
         }
 
-        return null;
+        return defaultFn;
     }
 
     /**
@@ -398,9 +412,38 @@ public virtual class Func {
      * @return Func
      * */
     public static Func require(String packageName, String funcName) {
+        return Func.require(packageName, funcName, null);
+    }
+
+    /**
+     * Require the Func from the package and the name, with the fallback Func
+     *
+     * Example:
+     * Func f = Func.require('R', 'add', R.noop);
+     *
+     * @param packageName The name of the package
+     * @param funcName The name of the Func
+     * @param defaultFn The default Func
+     * @return Func
+     * */
+    public static Func require(String packageName, String funcName, Func defaultFn) {
+        if(Func.packages == null) {
+            Func.loadPackages();
+        }
+
         IPackage pkg = Func.packages.get(packageName);
 
-        return pkg == null ? null : pkg.require(funcName);
+        Func f = defaultFn;
+
+        if(pkg != null) {
+            f = pkg.require(funcName);
+
+            if(f == null) {
+                f = defaultFn;
+            }
+        }
+
+        return f;
     }
 
     /**
