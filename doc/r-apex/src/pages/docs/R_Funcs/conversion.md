@@ -16,7 +16,7 @@ Convert single values. Examples are like:
 
 ```javascript
 Object a = ...;
-String str = R.toString.run(a);
+String str = (String)R.toString.run(a);
 ```
 
 | Type | Func |
@@ -44,7 +44,7 @@ Convert list values. Examples are like:
 
 ```javascript
 Object a = ...;
-List<String> strList = R.toStringList.run(a);
+List<String> strList = (List<String>)R.toStringList.run(a);
 ```
 
 | Type | Func |
@@ -73,7 +73,7 @@ Convert map values. Examples are like:
 
 ```javascript
 Object a = ...;
-Map<String, String> strMap = R.toStringMap.run(a);
+Map<String, String> strMap = (Map<String, String>)R.toStringMap.run(a);
 ```
 
 | Type | Func |
@@ -102,8 +102,8 @@ Convert set values. Examples are like:
 
 ```javascript
 Object a = ...;
-Set<String> strSet = R.toSet.run(a);
-Set<Id> strSet = R.toIdSet.run(a);
+Set<String> strSet =(Set<String>)R.toSet.run(a);
+Set<Id> strSet = (Set<Id>)R.toIdSet.run(a);
 ```
 
 | Type | Func |
@@ -121,7 +121,7 @@ Check if conversions can be made. Examples are like:
 
 ```javascript
 Object a = ...;
-Boolean b = R.isStringLike.run(a);
+Boolean b = (Boolean)R.isStringLike.run(a);
 ```
 
 | Type | Func |
