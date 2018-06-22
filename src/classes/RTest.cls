@@ -425,6 +425,15 @@ private class RTest {
     }
 
     @IsTest
+    private static void toSetTest() {
+        Set<String> sString = new Set<String>{ 'a', 'b' };
+        System.assertEquals(sString, R.of(sSTring).toSet());
+
+        Set<Id> sId = new Set<Id>{ '001000000000000000', '001000000000000001' };
+        System.assertEquals(sString, R.of(sSTring).toSet());
+    }
+
+    @IsTest
     private static void toMapTest() {
         Map<String, SObject> mSObject = new Map<String, SObject>{ 'a' => new Account() };
         System.assertEquals(mSObject, R.of(mSObject).toSObjectMap());
