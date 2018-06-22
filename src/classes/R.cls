@@ -289,7 +289,19 @@ public class R implements Func.IPackage {
      * @return instance of Set<String>
      * */
     public Set<String> toSet() {
-        return (Set<String>)this.val;
+        return (Set<String>)toSet.run(this.val);
+    }
+
+    /**
+     * Convert the wrapped value to Set<Id>
+     *
+     * Example:
+     * R.emptySet().toIdSet(); // {}
+     *
+     * @return instance of Set<Id>
+     * */
+    public Set<Id> toIdSet() {
+        return (Set<Id>)toIdSet.run(this.val);
     }
 
     /**
@@ -2662,6 +2674,18 @@ public class R implements Func.IPackage {
      * @return Object(Set<String>)
      * */
     public static Func toSet = new ToSetFunc();
+
+    /**
+     * Covnert to Set
+     *
+     * Example:
+     * R.toIdSet.run(new Set<Id>{ 'a' })
+     * // {a}
+     *
+     * @param arg The raw object
+     * @return Object(Set<Id>)
+     * */
+    public static Func toIdSet = new ToIdSetFunc();
 
     /**
      * Check if it can be converted to Set
@@ -5176,6 +5200,7 @@ public class R implements Func.IPackage {
         'toList' => toList,
         'isListLike' => isListLike,
         'toSet' => toSet,
+        'toIdSet' => toIdSet,
         'isSetLike' => isSetLike,
         'toMap' => toMap,
         'isMapLike' => isMapLike,
@@ -6760,15 +6785,66 @@ public class R implements Func.IPackage {
         }
 
         public override Object exec(Object arg) {
-            Set<String> newSet = null;
+            Set<String> newSet = new Set<String>();
             if(arg == null) {
-                newSet = new Set<String>();
             }
             else if(arg instanceof Set<String>) {
                 newSet = (Set<String>)arg;
             }
-            else if(arg instanceof R && ((R)arg).isSet()) {
+            else if(arg instanceof Set<Id>) {
+                for (Id id : (Set<Id>)arg) {
+                    newSet.add(id);
+                }
+            }
+            else if(arg instanceof List<String>) {
+                for (String str : (List<String>)arg) {
+                    newSet.add(str);
+                }
+            }
+            else if(arg instanceof List<Id>) {
+                for (Id id : (List<Id>)arg) {
+                    newSet.add(id);
+                }
+            }
+            else if(arg instanceof R &&
+                    (((R)arg).isSet() || ((R)arg).isList())) {
                 newSet = ((R)arg).toSet();
+            }
+
+            return newSet;
+        }
+    }
+
+    private class ToIdSetFunc extends Func {
+        public ToIdSetFunc() {
+            super(1);
+        }
+
+        public override Object exec(Object arg) {
+            Set<Id> newSet = new Set<Id>();
+            if(arg == null) {
+            }
+            else if(arg instanceof Set<Id>) {
+                newSet = (Set<Id>)arg;
+            }
+            else if(arg instanceof Set<String>) {
+                for (String str : (Set<String>)arg) {
+                    newSet.add(str);
+                }
+            }
+            else if(arg instanceof List<Id>) {
+                for (Id id : (List<Id>)arg) {
+                    newSet.add(id);
+                }
+            }
+            else if(arg instanceof List<String>) {
+                for (String str : (List<String>)arg) {
+                    newSet.add(str);
+                }
+            }
+            else if(arg instanceof R &&
+                    (((R)arg).isSet() || ((R)arg).isList())) {
+                newSet = ((R)arg).toIdSet();
             }
 
             return newSet;
