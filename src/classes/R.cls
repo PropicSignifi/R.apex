@@ -6796,14 +6796,9 @@ public class R implements Func.IPackage {
                     newSet.add(id);
                 }
             }
-            else if(arg instanceof List<String>) {
-                for (String str : (List<String>)arg) {
-                    newSet.add(str);
-                }
-            }
-            else if(arg instanceof List<Id>) {
-                for (Id id : (List<Id>)arg) {
-                    newSet.add(id);
+            else if(arg instanceof List<Object>) {
+                for (Object obj : (List<Object>)arg) {
+                    newSet.add((String)obj);
                 }
             }
             else if(arg instanceof R &&
@@ -6832,14 +6827,9 @@ public class R implements Func.IPackage {
                     newSet.add(str);
                 }
             }
-            else if(arg instanceof List<Id>) {
-                for (Id id : (List<Id>)arg) {
-                    newSet.add(id);
-                }
-            }
-            else if(arg instanceof List<String>) {
-                for (String str : (List<String>)arg) {
-                    newSet.add(str);
+            else if(arg instanceof List<Object>) {
+                for (Object obj : (List<Object>)arg) {
+                    newSet.add((Id)obj);
                 }
             }
             else if(arg instanceof R &&
