@@ -314,11 +314,14 @@ public virtual class Func {
             String prefix = c.NamespacePrefix;
             String qName = name;
             if(prefix != null) {
-                qName = prefix + '__' + name;
+                qName = prefix + '.' + name;
             }
 
             try {
                 Type pkgType = Type.forName(qName);
+                if (pkgType == null) {
+                    throw new FuncException('Failed to load class ' + qName);
+                }
                 IPackage pkg = (IPackage)pkgType.newInstance();
 
                 Func.packages.put(Func.getPackageName(name), pkg);
