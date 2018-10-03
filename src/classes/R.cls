@@ -10128,7 +10128,8 @@ public class R implements Func.IPackage {
         public override Object exec(Object arg1, Object arg2) {
             String separator = toString(arg1);
             String source = toString(arg2);
-
+            if (source == null)
+                return null;
             return source.split(separator);
         }
     }
