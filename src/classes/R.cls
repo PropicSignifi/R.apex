@@ -6314,7 +6314,9 @@ public class R implements Func.IPackage {
             else if(arg instanceof R && ((R)arg).isString()) {
                 return ((R)arg).toString();
             }
-            else {
+            else if(arg instanceof Datetime) {
+                return JSON.serialize(arg).replaceAll('"', '');
+            } else {
                 return String.valueOf(arg);
             }
         }
