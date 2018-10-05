@@ -383,7 +383,7 @@ R.findLast.run(R.equals.apply('a'), R.with('a', 'b'))
 
 <article id="28">
 
-## findlastIndex
+## findLastIndex
 
 Find the index of the first element from last that matches the predicate.
 
