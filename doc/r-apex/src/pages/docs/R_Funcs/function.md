@@ -94,7 +94,7 @@ System.debug(f.run(1, 2));
 
 <article id="6">
 
-## evlove
+## evolve
 
 Creates a new object by recursively evolving a copy of object, according to the transformation functions.
 
