@@ -6420,7 +6420,20 @@ public class R implements Func.IPackage {
                 return getDate(millis);
             }
             else if(arg instanceof String) {
-                return Date.valueOf((String)arg);
+                try {
+                    return Date.valueOf((String)arg);
+                } catch (Exception e1) {
+                    try {
+                        if (String.isBlank((String)arg)) {
+                            System.debug(LoggingLevel.Error, 'Cannot convert this value to Date:' + arg);
+                            return null;
+                        }
+                        return JSON.deserialize('"' + arg + '"', Date.class);
+                    } catch (Exception e2) {
+                        System.debug(LoggingLevel.Error, e2);
+                        return null;
+                    }
+                }
             }
 
             throw new Func.FuncException('Cannot convert arg to Date');
@@ -6567,7 +6580,20 @@ public class R implements Func.IPackage {
                 return getDatetime(millis);
             }
             else if(arg instanceof String) {
-                return Datetime.valueOf((String)arg);
+                try {
+                    return Datetime.valueOf((String)arg);
+                } catch (Exception e1) {
+                    try {
+                        if (String.isBlank((String)arg)) {
+                            System.debug(LoggingLevel.Error, 'Cannot convert this value to Datetime:' + arg);
+                            return null;
+                        }
+                        return JSON.deserialize('"' + arg + '"', Datetime.class);
+                    } catch (Exception e2) {
+                        System.debug(LoggingLevel.Error, e2);
+                        return null;
+                    }
+                }
             }
 
             throw new Func.FuncException('Cannot convert arg to Datetime');
