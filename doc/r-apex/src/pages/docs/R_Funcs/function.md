@@ -60,7 +60,7 @@ Compose the functions in a composing style.
 Composed functions are executed from right to left.
 
 ```javascript
-Func f = (Func)R.pipe.run(
+Func f = (Func)R.compose.run(
     R.add.apply(1),
     R.multiply.apply(2)
 );
