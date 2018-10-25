@@ -6053,7 +6053,7 @@ public class R implements Func.IPackage {
 
         public override Object exec(Object arg) {
             if(arg == null) {
-                return 0;
+                return null;
             }
             else if(arg instanceof Integer) {
                 return (Integer)arg;
@@ -6117,7 +6117,7 @@ public class R implements Func.IPackage {
 
         public override Object exec(Object arg) {
             if(arg == null) {
-                return 0;
+                return null;
             }
             else if(arg instanceof Long) {
                 return (Long)arg;
@@ -6181,7 +6181,7 @@ public class R implements Func.IPackage {
 
         public override Object exec(Object arg) {
             if(arg == null) {
-                return 0;
+                return null;
             }
             else if(arg instanceof Double) {
                 return (Double)arg;
@@ -6245,7 +6245,7 @@ public class R implements Func.IPackage {
 
         public override Object exec(Object arg) {
             if(arg == null) {
-                return 0;
+                return null;
             }
             else if(arg instanceof Decimal) {
                 return (Decimal)arg;
@@ -6402,6 +6402,9 @@ public class R implements Func.IPackage {
             }
             else if(arg instanceof Date) {
                 return (Date)arg;
+            }
+            else if(arg instanceof Datetime) {
+                return ((Datetime)arg).date();
             }
             else if(arg instanceof Integer) {
                 Long millis = (Long)arg;
