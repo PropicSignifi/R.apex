@@ -7368,7 +7368,7 @@ public class R implements Func.IPackage {
             String field = items.get(0);
             Object value = mMap.get(field);
 
-            if(isMapLike(value)) {
+            if(isMapLike(value) && items.size() > 1) {
                 Map<String, Object> subMap = toMap(value);
                 items.remove(0);
                 return this.getValue(subMap, items);
