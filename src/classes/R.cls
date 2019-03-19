@@ -9764,6 +9764,9 @@ public class R implements Func.IPackage {
         public override Object exec(Object arg1, Object arg2) {
             String regex = toString(arg1);
             String input = toString(arg2);
+            if (input == null) {
+                return null;
+            }
             Pattern ptn = patternCache.get(regex);
             if(ptn == null) {
                 ptn = Pattern.compile(regex);
@@ -10176,6 +10179,9 @@ public class R implements Func.IPackage {
             String ptn = toString(arg1);
             String target = toString(arg2);
 
+            if (ptn == null || target == null) {
+                return false;
+            }
             return Pattern.matches(ptn, target);
         }
     }
