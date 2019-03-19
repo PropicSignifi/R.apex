@@ -7909,6 +7909,7 @@ public class R implements Func.IPackage {
                 Integer size = mList.size();
                 first = getIndexInRange(first, size);
                 last = getIndexInRange(last, size);
+                last = last > size ? size : last;
                 List<Object> newList = new List<Object>();
                 if(first > last) {
                     return newList;
@@ -7923,6 +7924,7 @@ public class R implements Func.IPackage {
                 Integer size = mCharList.size();
                 first = getIndexInRange(first, size);
                 last = getIndexInRange(last, size);
+                last = last > size ? size : last;
                 List<String> newCharList = new List<String>();
                 if(first > last) {
                     return '';
