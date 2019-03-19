@@ -6913,7 +6913,7 @@ public class R implements Func.IPackage {
                 }
             }
             else {
-                newMap = new Map<String, Object>();
+                newMap = (Map<String, Object>)JSON.deserializeUntyped(JSON.serialize(arg));
             }
 
             return newMap;
