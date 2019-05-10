@@ -6316,6 +6316,9 @@ public class R implements Func.IPackage {
             }
             else if(arg instanceof Datetime) {
                 return JSON.serialize(arg).replaceAll('"', '');
+            }
+            else if(arg instanceof Map<String, Object>) {
+                return JSON.serialize(arg);
             } else {
                 return String.valueOf(arg);
             }
@@ -6912,8 +6915,19 @@ public class R implements Func.IPackage {
                     newMap.put(toString(key), value);
                 }
             }
+            else if(arg instanceof String) {
+                try {
+                    newMap = (Map<String, Object>)JSON.deserializeUntyped((String)arg);
+                } catch(Exception e) {
+                    System.debug(LoggingLevel.Error, 'ERROR (toMap): ' + e);
+                }
+            }
             else {
-                newMap = (Map<String, Object>)JSON.deserializeUntyped(JSON.serialize(arg));
+                try {
+                    newMap = (Map<String, Object>)JSON.deserializeUntyped(JSON.serialize(arg));
+                } catch(Exception e) {
+                    System.debug(LoggingLevel.Error, 'ERROR (toMap): ' + e);
+                }
             }
 
             return newMap;
