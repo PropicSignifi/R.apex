@@ -6791,6 +6791,13 @@ public class R implements Func.IPackage {
                 Pair mPair = (Pair)arg;
                 newList = new List<Object>{ mPair.fst, mPair.snd };
             }
+            else if(arg instanceof String) {
+                try {
+                    newList = (List<Object>)JSON.deserializeUntyped((String)arg);
+                } catch(Exception e) {
+                    System.debug(LoggingLevel.Error, 'ERROR (toList): ' + e);
+                }
+            }
             else {
                 newList = new List<Object>();
             }
