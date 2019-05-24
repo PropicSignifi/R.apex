@@ -6319,6 +6319,9 @@ public class R implements Func.IPackage {
             }
             else if(arg instanceof Map<String, Object>) {
                 return JSON.serialize(arg);
+            }
+            else if(arg instanceof List<Object>) {
+                return JSON.serialize(arg);
             } else {
                 return String.valueOf(arg);
             }
