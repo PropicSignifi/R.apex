@@ -7828,7 +7828,7 @@ public class R implements Func.IPackage {
                 List<Object> mList = toList(arg2);
                 List<Object> newList = new List<Object>();
                 for(Object obj: mList) {
-                    newList.add(R.prop.run(field, obj));
+                    newList.add(R.path.run(field, obj));
                 }
                 return newList;
             }
@@ -7837,7 +7837,7 @@ public class R implements Func.IPackage {
                 Map<String, Object> newMap = new Map<String, Object>();
                 for(String key : mMap.keySet()) {
                     Object val = mMap.get(key);
-                    newMap.put(key, R.prop.run(field, val, key));
+                    newMap.put(key, R.path.run(field, val, key));
                 }
                 return newMap;
             }
