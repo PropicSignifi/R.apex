@@ -326,6 +326,16 @@ public class R implements Func.IPackage {
      * */
     public Map<String, Object> toMap() {
         return (Map<String, Object>)this.val;
+
+    }
+
+    /**
+     * Convert wrapped value to List<Map<String, Object>>
+     *
+     * @return List<Map<String, Object>>
+     * */
+    public List<Map<String, Object>> toMapList() {
+        return (List<Map<String, Object>>)R.toMapList.run(this.val);
     }
 
     /**
@@ -2724,6 +2734,14 @@ public class R implements Func.IPackage {
      * @return Object(Boolean)
      * */
     public static Func isMapLike = new IsMapLikeFunc();
+
+    /**
+     * Convert to Map List
+     *
+     * @param arg The raw object
+     * @return Object(List<Map<String, Object>>)
+     * */
+    public static Func toMapList = new ToMapListFunc();
 
     /**
      * Convert to Pair
@@ -5204,6 +5222,7 @@ public class R implements Func.IPackage {
         'isSetLike' => isSetLike,
         'toMap' => toMap,
         'isMapLike' => isMapLike,
+        'toMapList' => toMapList,
         'toPair' => toPair,
         'isPairLike' => isPairLike,
         'toPairList' => toPairList,
@@ -5517,6 +5536,10 @@ public class R implements Func.IPackage {
 
     private static Boolean isMapLike(Object arg) {
         return (Boolean)R.isMapLike.run(arg);
+    }
+
+    private static List<Map<String, Object>> toMapList(Object arg) {
+        return (List<Map<String, Object>>)R.toMapList.run(arg);
     }
 
     private static Pair toPair(Object arg) {
@@ -6955,6 +6978,23 @@ public class R implements Func.IPackage {
                     (arg instanceof R && ((R)arg).isMap()) ||
                     arg instanceof SObject
                 );
+        }
+    }
+
+    private class ToMapListFunc extends Func {
+        public ToMapListFunc() {
+            super(1);
+        }
+
+        public override Object exec(Object arg) {
+            List<Object> mList = toList(arg);
+            List<Map<String, Object>> newList = new List<Map<String, Object>>();
+
+            for (Object obj : mList) {
+                newList.add(toMap(obj));
+            }
+
+            return newList;
         }
     }
 
