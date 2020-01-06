@@ -7076,6 +7076,8 @@ public class R implements Func.IPackage {
         public override Object exec(Object a, Object b) {
             Decimal d1 = toDecimal(a);
             Decimal d2 = toDecimal(b);
+            if (d1 == null) d1 = 0;
+            if (d2 == null) d2 = 0;
             return d1 + d2;
         }
     }
@@ -7088,6 +7090,8 @@ public class R implements Func.IPackage {
         public override Object exec(Object a, Object b) {
             Decimal d1 = toDecimal(a);
             Decimal d2 = toDecimal(b);
+            if (d1 == null) d1 = 0;
+            if (d2 == null) d2 = 0;
             return d1 - d2;
         }
     }
@@ -7100,6 +7104,8 @@ public class R implements Func.IPackage {
         public override Object exec(Object a, Object b) {
             Decimal d1 = toDecimal(a);
             Decimal d2 = toDecimal(b);
+            if (d1 == null) d1 = 0;
+            if (d2 == null) d2 = 0;
             return d1 * d2;
         }
     }
@@ -7112,6 +7118,8 @@ public class R implements Func.IPackage {
         public override Object exec(Object a, Object b) {
             Decimal d1 = toDecimal(a);
             Decimal d2 = toDecimal(b);
+            if (d1 == null) d1 = 0;
+            if (d2 == null) d2 = 0;
             return d1 / d2;
         }
     }
@@ -7124,6 +7132,8 @@ public class R implements Func.IPackage {
         public override Object exec(Object a, Object b) {
             Long d1 = toLong(a);
             Long d2 = toLong(b);
+            if (d1 == null) d1 = 0;
+            if (d2 == null) d2 = 0;
             return Math.mod(d1, d2);
         }
     }
