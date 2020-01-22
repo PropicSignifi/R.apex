@@ -1028,6 +1028,18 @@ public class R implements Func.IPackage {
     }
 
     /**
+     * Check if it is empty
+     *
+     * Example:
+     * R.with(1, 2, 3).isNotEmpty().debug(); // true
+     *
+     * @return R
+     * */
+    public R isNotEmpty() {
+        return R.of((Boolean)R.isNotEmpty.run(this.val));
+    }
+
+    /**
      * Get the sum
      *
      * Example:
@@ -3704,6 +3716,18 @@ public class R implements Func.IPackage {
     );
 
     /**
+     * Check if it is not empty
+     *
+     * Example:
+     * R.isNotEmpty.run(R.with(1, 2, 3))
+     * // true
+     *
+     * @param target The target object
+     * @return Object(Boolean)
+     * */
+    public static Func isNotEmpty = (Func)R.complement.run(R.isEmpty);
+
+    /**
      * Get the sum
      *
      * Example:
@@ -5292,6 +5316,7 @@ public class R implements Func.IPackage {
         'length' => length,
         'size' => size,
         'isEmpty' => isEmpty,
+        'isNotEmpty' => isNotEmpty,
         'sum' => sum,
         'slice' => slice,
         'take' => take,
