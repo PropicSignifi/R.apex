@@ -1307,6 +1307,17 @@ private class RTest {
     }
 
     @IsTest
+    private static void isNotEmptyTest() {
+        List<Integer> ints = new List<Integer>{ 1, 2, 3 };
+        System.assertEquals(
+            true,
+            R.of(ints)
+                .isNotEmpty()
+                .toBoolean()
+        );
+    }
+
+    @IsTest
     private static void lengthTest() {
         List<Integer> ints = new List<Integer>{ 1, 2, 3 };
         System.assertEquals(
