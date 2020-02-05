@@ -393,6 +393,8 @@ private class RTest {
         Datetime mDatetime = Datetime.newInstance(2018, 1, 1);
         System.assertEquals(mDatetime, R.of(mDatetime).toDatetime());
 
+        System.assertEquals(mDatetime, R.of(mDate).toDatetime());
+
         Func f = R.equals;
         System.assertEquals(f, R.of(f).toFunc());
     }

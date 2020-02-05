@@ -6613,12 +6613,19 @@ public class R implements Func.IPackage {
             return Datetime.newInstance(millis);
         }
 
+        private Datetime getDatetime(Date d) {
+            return Datetime.newInstance(d.year(), d.month(), d.day());
+        }
+
         public override Object exec(Object arg) {
             if(arg == null) {
                 return null;
             }
             else if(arg instanceof Datetime) {
                 return (Datetime)arg;
+            }
+            else if(arg instanceof Date) {
+                return getDatetime((Date)arg);
             }
             else if(arg instanceof Integer) {
                 Long millis = (Long)arg;
