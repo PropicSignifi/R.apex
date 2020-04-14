@@ -8423,11 +8423,13 @@ public class R implements Func.IPackage {
 
         public override Object exec(Object arg) {
             List<Object> mList = toList(arg);
+            Set<Object> mSet = new Set<Object>();
             List<Object> newList = new List<Object>();
 
             for(Object obj : mList) {
-                Boolean exists = toBoolean(R.contains.run(obj, newList));
+                Boolean exists = mSet.contains(obj);
                 if(!exists) {
+                    mSet.add(obj);
                     newList.add(obj);
                 }
             }
