@@ -6621,11 +6621,11 @@ public class R implements Func.IPackage {
             if(arg == null) {
                 return null;
             }
-            else if(arg instanceof Datetime) {
-                return (Datetime)arg;
-            }
             else if(arg instanceof Date) {
                 return getDatetime((Date)arg);
+            }
+            else if(arg instanceof Datetime) {
+                return (Datetime)arg;
             }
             else if(arg instanceof Integer) {
                 Long millis = (Long)arg;
