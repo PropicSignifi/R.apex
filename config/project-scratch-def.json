@@ -1,0 +1,21 @@
+{
+  "orgName": "R-Scratch-Org",
+  "edition": "Developer",
+  "features": [
+    "AuthorApex",
+    "DebugApex" 
+  ],
+  "settings": {
+    "mobileSettings": {
+      "enableS1EncryptedStoragePref2": false
+    },
+    "lightningExperienceSettings": {
+      "enableS1DesktopEnabled": true
+    },
+    "securitySettings": {
+      "sessionSettings": {
+        "sessionTimeout": "TwelveHours"
+      }
+    }
+  }
+}
